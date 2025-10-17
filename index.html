@@ -36,6 +36,57 @@
     .navbar ul{list-style:none;display:flex;gap:15px}
     .navbar a{color:var(--text);text-decoration:none;font-size:16px;transition:.25s}
     .navbar a:hover,.navbar a.active{color:var(--cyan);border-bottom:2px solid var(--cyan)}
+	/* Base menu toggle (hidden on desktop) */
+.menu-toggle {
+  display: none;
+  font-size: 2rem;
+  color: cyan;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .navbar {
+    position: relative;
+  }
+
+  .menu-toggle {
+    display: block;
+    font-size: 2rem;
+    color: cyan;
+    cursor: pointer;
+    user-select: none;
+    z-index: 1001;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    text-align: right;
+    flex-direction: column;
+
+    /* Transition effect */
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.4s ease;
+  }
+
+  .nav-links.active {
+    max-height: 400px; /* enough space for all links */
+    opacity: 1;
+  }
+
+  .nav-links li {
+    margin: 10px 0;
+  }
+}
+
 
     /* Sections base */
     .section{
@@ -239,18 +290,29 @@
 <body>
 <!-- Starfield -->
 <canvas id="starfield"></canvas>
+
 <!-- Navbar -->
 <nav class="navbar">
-<div class="logo"><a href="#">Aravind <span>Sanapala</span></a></div>
-<ul>
-<li><a class="active" href="#home">Home</a></li>
-<li><a href="#about">About</a></li>
-<li><a href="#skills">Skills</a></li>
-<li><a href="#experience">Experience</a></li>
-<li><a href="#projects">Projects</a></li>
-<li><a href="#contact">Contact</a></li>
-</ul>
+  <div class="logo">
+    <a href="#">Aravind <span>Sanapala</span></a>
+  </div>
+
+  <!-- Hamburger icon -->
+  <div class="menu-toggle" id="menu-toggle">
+    ☰
+  </div>
+
+  <!-- Navigation links -->
+  <ul class="nav-links" id="nav-links">
+    <li><a class="active" href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
 </nav>
+
 <!-- Hero -->
 <section class="hero section" id="home">
 <img alt="Profile Picture" class="stage-1" src="portfolio_img.jpeg"/>
@@ -549,6 +611,28 @@ window.addEventListener("scroll", updateActiveLink);
       else{toTop.classList.remove("show");}
     });
     toTop.addEventListener("click", ()=>window.scrollTo({top:0, behavior:"smooth"}));
+	// Responsive mobile navbar toggle
+const menuToggle = document.getElementById('menu-toggle');
+const navLinksContainer = document.getElementById('nav-links');
+
+if (menuToggle && navLinksContainer) {
+  menuToggle.addEventListener('click', () => {
+    navLinksContainer.classList.toggle('active');
+    // toggle icon between ☰ and ✕
+    menuToggle.textContent = navLinksContainer.classList.contains('active') ? '✕' : '☰';
+  });
+
+  // Optional: auto-close menu when a link is clicked (for mobile UX)
+  const navLinks = navLinksContainer.querySelectorAll('a');
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      navLinksContainer.classList.remove('active');
+      menuToggle.textContent = '☰';
+    });
+  });
+}
+
+    
   </script>
 </body>
 </html>
