@@ -737,7 +737,7 @@ const toggleBtn = document.getElementById("theme-toggle");
   const root = document.documentElement;
 
   // Load previously saved theme or default to dark
-  const currentTheme = localStorage.getItem("theme") || "dark";
+  const currentTheme = localStorage.getItem("theme") || "light";
   root.setAttribute("data-theme", currentTheme);
   toggleBtn.innerHTML = currentTheme === "light" ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
 
