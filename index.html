@@ -737,7 +737,7 @@ const toggleBtn = document.getElementById("theme-toggle");
   const root = document.documentElement;
 
   // Load previously saved theme or default to dark
-  const currentTheme = localStorage.getItem("theme") || "light";
+  const currentTheme = localStorage.getItem("theme") || "lights";
   root.setAttribute("data-theme", currentTheme);
   toggleBtn.innerHTML = currentTheme === "light" ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
 
@@ -749,6 +749,46 @@ const toggleBtn = document.getElementById("theme-toggle");
     toggleBtn.innerHTML = newTheme === "light" ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
   });
     
+
+	
+
   </script>
+
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<script>
+  // Initialize EmailJS (insert your Public Key here)
+  emailjs.init("rZ-A43AnxIjHchlN");
+
+  // Handle contact form submission
+  document.querySelector(".contact-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    // Collect form field values
+    const name = this.querySelector('input[placeholder="Full Name"]').value;
+    const email = this.querySelector('input[placeholder="Email"]').value;
+    const phone = this.querySelector('input[placeholder="Phone Number"]').value;
+    const subject = this.querySelector('input[placeholder="Subject"]').value;
+    const message = this.querySelector('textarea').value;
+
+    // Send email via EmailJS
+    emailjs.send("service_b842qaw", "template_k0dih4t", {
+      name,
+      email,
+      phone,
+      subject,
+      message
+    })
+    .then(() => {
+      alert("✅ Message sent successfully!");
+      this.reset(); // Clear form
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      alert("❌ Message failed — please try again later.");
+    });
+  });
+</script>
 </body>
 </html>
